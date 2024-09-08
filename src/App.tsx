@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Button from './components/Button/Button'
+import Input from './components/Input/input';
 
 function App() {
   const [counter, setCounter] = useState<number>(0);
@@ -13,7 +14,8 @@ function App() {
     <>
       <Button onClick={addCounter}>Click me</Button>
       <Button appearance="primary">Click me</Button>
-      <p>{ counter }</p>
+      <p>{counter}</p>
+      <Input placeholder='email'/>
     </>
   )
 }
