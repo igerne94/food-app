@@ -1,10 +1,25 @@
 import { useState } from 'react';
 import Button from './components/Button/Button'
 import Input from './components/Input/Input';
-import { Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Menu } from './components/Pages/Menu/Menu';
 import { Cart } from './components/Pages/Cart/Cart';
 import { ErrorM } from './components/Pages/Error/ErrorM';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Menu />,
+  },
+  {
+    path: "cart",
+    element: <Cart />,
+  },
+  {
+    path: "*",
+    element: <ErrorM />,
+  },
+]);
 
 function App() {
   const [counter, setCounter] = useState<number>(0);
@@ -24,12 +39,7 @@ function App() {
         <a href='/'>Menu</a>
         <a href='/cart'>Cart</a>
       </div>
-      {/* Everything outside routing: ^ - is common */}
-      <Routes>
-        <Route path="/" element={<Menu />} />
-        <Route path="Cart" element={<Cart />} />
-        <Route path="*" element={<ErrorM />} />
-      </Routes>
+      <RouterProvider router={router} />
     </>
   )
 }
