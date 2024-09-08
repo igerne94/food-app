@@ -9,12 +9,12 @@
 	font-weight: 400;
 }
 
-.small {
+.secondary {
 	font-size: 16px;
 	padding: 10px 25px;
 }
 
-.big {
+.primary {
 	font-size: 15px;
 	text-transform: uppercase;
 	padding: 20px 60px;

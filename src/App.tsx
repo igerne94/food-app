@@ -12,6 +12,7 @@ function App() {
   return (
     <>
       <Button onClick={addCounter}>Click me</Button>
+      <Button appearance="primary">Click me</Button>
       <p>{ counter }</p>
     </>
   )
