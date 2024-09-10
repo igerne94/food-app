@@ -41,7 +41,7 @@ export function Layout() {
                 <img src='/exit-icon.svg' alt='exit' />
             </Button>
         </div>
-        <div>
+        <div className={styles['content']}>
             <Outlet />
         </div>
     </div>
