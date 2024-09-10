@@ -70,3 +70,7 @@
     line-height: normal;
     color: var(--text-secondary-color)
 }
+
+.content {
+    padding: 40px 60px;
+}   
