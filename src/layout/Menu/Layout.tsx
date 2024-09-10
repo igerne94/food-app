@@ -2,7 +2,6 @@ import { NavLink, Outlet } from "react-router-dom";
 import styles from './Layout.module.css';
 import Button from "../../components/Button/Button";
 import cn from 'classnames';
-import Header from "../../components/Header/Header";
 
 export function Layout() {
     return <div className={styles['layout']}>
@@ -44,7 +43,6 @@ export function Layout() {
         </div>
         <div className={styles['content']}>
             <Outlet />
-            <Header>The header is Menu</Header>
         </div>
     </div>
 }
