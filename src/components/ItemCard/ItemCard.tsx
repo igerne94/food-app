@@ -4,7 +4,7 @@ import { ItemCardProps } from './ItemCard.props';
 
 function ItemCard(props: ItemCardProps) {
     return (
-        <Link to='/' className={styles['link']}>
+        <Link to={`/product/${props.id}`} className={styles['link']}>
             <div
                 className={styles['card']}
                 style={{ backgroundImage: `url('${props.image}}` }}
