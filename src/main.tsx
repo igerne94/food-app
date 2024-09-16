@@ -2,7 +2,7 @@ import { lazy, StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 // import App from './App.tsx'
 import './index.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, defer, RouterProvider } from 'react-router-dom';
 import { Cart } from './components/Pages/Cart/Cart';
 import { ErrorM } from './components/Pages/Error/ErrorM';
 import { Layout } from './layout/Menu/Layout';
@@ -37,13 +37,16 @@ const router = createBrowserRouter([
         element: <Product />,
         errorElement: <>Error</>,
         loader: async ({ params }) => {
-          await new Promise<void>((resolve) => {
-                setTimeout(() => {
-                    resolve();
+          return defer({
+            data: new Promise((resolve, reject) => {
+              setTimeout(() => {
+                axios
+                  .get(`${PREFIX}products/${params.id}`)
+                  .then(data => resolve(data))
+                  .catch((err) => reject(err));
                 }, 2000);
-            });
-          const { data } = await axios.get(`${PREFIX}products/${params.id}`);
-          return data;
+            }),
+          });
         }
       }
     ]
