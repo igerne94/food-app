@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { PREFIX } from "../../../helpers/.API";
 import { ProductInterface } from "../../../interfaces/product.interface";
 import axios, { AxiosError } from "axios";
-import MenuList from "./MenuList";
+import MenuList from "./MenuList/MenuList";
 
 export function Menu() {
     const [products, setProducts] = useState<ProductInterface[]>([]);
