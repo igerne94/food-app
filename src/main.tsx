@@ -10,6 +10,7 @@ import { Product } from './components/Pages/Product/Product';
 import axios from 'axios';
 import { PREFIX } from './helpers/.API';
 
+// eslint-disable-next-line react-refresh/only-export-components
 const Menu = lazy(() => {
   return import(
     './components/Pages/Menu/Menu'
