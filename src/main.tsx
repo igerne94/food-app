@@ -8,6 +8,8 @@ import { Cart } from './components/Pages/Cart/Cart';
 import { ErrorM } from './components/Pages/Error/ErrorM';
 import { Layout } from './layout/Menu/Layout';
 import { Product } from './components/Pages/Product/Product';
+import axios from 'axios';
+import { PREFIX } from './helpers/.API';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,15 @@ const router = createBrowserRouter([
       {
         path: "/product/:id",
         element: <Product />,
+        loader: async ({ params }) => {
+          await new Promise<void>((resolve) => {
+                setTimeout(() => {
+                    resolve();
+                }, 2000);
+            });
+          const { data } = await axios.get(`${PREFIX}products/${params.id}`);
+          return data;
+        }
       }
     ]
   },
