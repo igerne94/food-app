@@ -5,8 +5,13 @@ import Input from "../../Input/Input";
 import styles from './Login.module.css';
 
 export function Login() {
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        console.log('event', event);
+     };
+
     return (
-        <div className={styles['login']}>
+        <div className={styles['login']} onSubmit={handleSubmit}>
             <Header>Login</Header>
             <form className={styles['form']}>
                 <div className={styles['field']}>
