@@ -9,6 +9,9 @@ import { Layout } from './layout/Menu/Layout';
 import { Product } from './components/Pages/Product/Product';
 import axios from 'axios';
 import { PREFIX } from './helpers/.API';
+import { Authorization } from './layout/Authorization/Authorization';
+import { Login } from './components/Pages/Login/Login';
+import { Register } from './components/Pages/Register/Register';
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Menu = lazy(() => {
@@ -49,6 +52,20 @@ const router = createBrowserRouter([
             }),
           });
         }
+      }
+    ]
+  },
+  {
+    path: "/authorization",
+    element: <Authorization />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       }
     ]
   },
