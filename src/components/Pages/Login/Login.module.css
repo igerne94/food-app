@@ -36,3 +36,9 @@
     color: var(--primary-color);
     text-decoration: none;
 }
+
+.error {
+    background: rgb(220, 110, 14);
+    color: white;
+    padding: 20px;
+}
