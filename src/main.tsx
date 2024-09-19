@@ -13,6 +13,8 @@ import { Authorization } from './layout/Authorization/Authorization';
 import { Login } from './components/Pages/Login/Login';
 import { Register } from './components/Pages/Register/Register';
 import { RequireAuth } from './components/Pages/RequireAuth';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Menu = lazy(() => {
@@ -79,6 +81,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>,
 )
