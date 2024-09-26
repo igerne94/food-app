@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { loadState } from "./storage";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { PREFIX } from "../helpers/.API";
 import { LoginResponse } from "../interfaces/auth.interface";
 
@@ -12,6 +12,7 @@ export interface UserPersistentState {
 
 export interface UserState {
     jwt: string | null;
+    loginErrorMesssage?: string | null;
 }
 
 const initialState: UserState = {
@@ -20,11 +21,17 @@ const initialState: UserState = {
 
 export const login = createAsyncThunk('user/login',
     async (params: { email: string, password: string }) => {
-        const { data } = await axios.post<LoginResponse>(`${PREFIX}auth/login`, {
+        try {
+            const { data } = await axios.post<LoginResponse>(`${PREFIX}auth/login`, {
                 email: params.email,
                 password: params.password
-        });
-        return data;
+            });
+            return data;
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                throw new Error(error.response?.data.message);
+            }
+        }
     }
 );
 
@@ -32,16 +39,25 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        addJwt: (state, action: PayloadAction<string>) => {
+        addJwt: (state, action) => {
             state.jwt = action.payload;
         },
         logout: (state) => {
             state.jwt = null;
+        },
+        clearLoginError: (state) => {
+            state.loginErrorMesssage = null;
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(login.fulfilled, (state, action: PayloadAction <LoginResponse>) => {
+        builder.addCase(login.fulfilled, (state, action) => {
+            if (!action.payload) {
+                return;
+            }
             state.jwt = action.payload.access_token;
+        })
+        builder.addCase(login.rejected, (state, action) => {
+            state.loginErrorMesssage = action.error.message;
         })
     }
 });

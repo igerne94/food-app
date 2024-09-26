@@ -3,10 +3,10 @@ import Button from "../../Button/Button";
 import Header from "../../Header/Header";
 import Input from "../../Input/Input";
 import styles from './Login.module.css';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../../store/store";
-import { login } from "../../../store/user.slice";
+import { login, userActions } from "../../../store/user.slice";
 import { RootState } from "../../../store/store";
 
 export type LoginForm = {
@@ -19,11 +19,10 @@ export type LoginForm = {
 };
 
 export function Login() {
-    const [error, setError] = useState<string | null>();
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
 
-    const jwt = useSelector((s: RootState) => s.user.jwt);
+    const { jwt, loginErrorMesssage } = useSelector((s: RootState) => s.user);
     useEffect(() => {
         if (jwt) {
             navigate('/');
@@ -32,7 +31,7 @@ export function Login() {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        setError(null);
+        dispatch(userActions.clearLoginError());
         const target = event.target as typeof event.target & LoginForm;
         const { email, password } = target;
         await getToken(email.value, password.value);
@@ -40,24 +39,12 @@ export function Login() {
     
     const getToken = async (email: string, password: string) => {
         dispatch(login({ email, password }));
-        // try { 
-        //     const { data } = await axios.post<LoginResponse>(`${PREFIX}auth/login`, {
-        //         email,
-        //         password
-        //     });
-        //     dispatch(userActions.addJwt(data.access_token));
-        //     navigate('/');
-        // } catch (error) {
-        //     if (error instanceof AxiosError) {
-        //         setError(error.response?.data.message);
-        //     }
-        // }
     };
 
     return (
         <div className={styles['login']}>
             <Header>Login</Header>
-            {error && <div className={styles['error']}>{error}</div>}
+            {loginErrorMesssage && <div className={styles['error']}>{loginErrorMesssage}</div>}
             <form className={styles['form']} onSubmit={handleSubmit}>
                 <div className={styles['field']}>
                     <label htmlFor="">Your email</label>
