@@ -12,7 +12,7 @@ import { PREFIX } from './helpers/.API';
 import { Authorization } from './layout/Authorization/Authorization';
 import { Login } from './components/Pages/Login/Login';
 import { Register } from './components/Pages/Register/Register';
-import { RequireAuth } from './components/Pages/RequireAuth';
+import { RequireAuth } from './helpers/RequireAuth';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 
