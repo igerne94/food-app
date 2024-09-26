@@ -3,10 +3,11 @@ import Button from "../../Button/Button";
 import Header from "../../Header/Header";
 import Input from "../../Input/Input";
 import styles from './Login.module.css';
-import axios, { AxiosError } from "axios";
-import { PREFIX } from "../../../helpers/.API";
-import { useState } from "react";
-import { LoginResponse } from "../../../interfaces/auth.interface";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../../store/store";
+import { login } from "../../../store/user.slice";
+import { RootState } from "../../../store/store";
 
 export type LoginForm = {
     email: {
@@ -20,6 +21,14 @@ export type LoginForm = {
 export function Login() {
     const [error, setError] = useState<string | null>();
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const jwt = useSelector((s: RootState) => s.user.jwt);
+    useEffect(() => {
+        if (jwt) {
+            navigate('/');
+        }
+    }, [jwt, navigate]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -30,18 +39,19 @@ export function Login() {
     };
     
     const getToken = async (email: string, password: string) => {
-        try { 
-            const { data } = await axios.post<LoginResponse>(`${PREFIX}auth/login`, {
-                email,
-                password
-            });
-            localStorage.setItem('jwt_token', data.access_token);
-            navigate('/');
-        } catch (error) {
-            if (error instanceof AxiosError) {
-                setError(error.response?.data.message);
-            }
-        }
+        dispatch(login({ email, password }));
+        // try { 
+        //     const { data } = await axios.post<LoginResponse>(`${PREFIX}auth/login`, {
+        //         email,
+        //         password
+        //     });
+        //     dispatch(userActions.addJwt(data.access_token));
+        //     navigate('/');
+        // } catch (error) {
+        //     if (error instanceof AxiosError) {
+        //         setError(error.response?.data.message);
+        //     }
+        // }
     };
 
     return (
