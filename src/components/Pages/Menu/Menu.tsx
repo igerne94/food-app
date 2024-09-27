@@ -11,16 +11,17 @@ export function Menu() {
     const [products, setProducts] = useState<ProductInterface[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>();
+    const [filter, setFilter] = useState<string>();
 
-    const getMenu = async () => {
+    useEffect(() => {
+        getMenu(filter);
+    }, [filter]);
+    
+    const getMenu = async (filter: string | undefined) => {
         try {
             setIsLoading(true);
-            await new Promise<void>((resolve) => {
-                setTimeout(() => {
-                    resolve();
-                }, 2000);
-            });
-            const { data } = await axios.get<ProductInterface[]>(`${PREFIX}products`);
+            const searchParam = filter ? `?name=${filter}` : '';
+            const { data } = await axios.get<ProductInterface[]>(`${PREFIX}products${searchParam}`);
             setProducts(data);
             setIsLoading(false);
         } catch (error) {
@@ -33,19 +34,20 @@ export function Menu() {
         }
     };
 
-    useEffect(() => {
-        getMenu();
-    }, []);
+    const updateFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFilter(e.target.value);
+    }
 
     return (
         <>
             <div className={styles['head']}>
                 <Header>Menu</Header>
-                <Search placeholder="Search by dish or ingredient" />
+                <Search placeholder="Search by dish or ingredient" onChange={updateFilter}/>
             </div>
             <div>
                 {error && <p>{error}</p>}
-                {!isLoading && <MenuList products={products} />}
+                {!isLoading && products.length>0 && <MenuList products={products} />}
+                {!isLoading && products.length === 0 && <p>No products found</p>}
                 {isLoading && <p>Loading..</p>}
             </div>
         </>)
