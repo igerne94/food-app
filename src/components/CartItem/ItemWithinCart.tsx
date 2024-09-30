@@ -12,9 +12,11 @@ function ItemWithinCart(props: CartItemProps) {
     };
 
     const decrease = () => {
+        dispatch(cartActions.decrease(props.id));
     };
 
     const remove = () => {
+        dispatch(cartActions.remove(props.id));
     };
 
     return (
