@@ -3,7 +3,7 @@ import Header from "../../Header/Header";
 import { RootState } from "../../../store/store";
 // import ItemWithinCartProps from "../../CartItem/ItemWithinCart.props";
 import ItemWithinCart from "../../CartItem/ItemWithinCart";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ProductInterface } from "../../../interfaces/product.interface";
 import axios from "axios";
 import { PREFIX } from "../../../helpers/.API";
@@ -16,14 +16,14 @@ export function Cart() /*: ItemWithinCartProps*/ {
         return data;
     }
 
-    const loadAllItems = async () => { 
+    const loadAllItems = useCallback( async () => { 
         const res = await Promise.all(items.map(i => getItem(i.id)));
         setCardProducts(res);
-    };
+    }, [items]);
 
     useEffect(() => {
         loadAllItems()
-    }, [items]);
+    }, [items, loadAllItems]);
     
     return (
         <>
