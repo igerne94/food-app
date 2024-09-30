@@ -26,18 +26,18 @@ function ItemWithinCart(props: CartItemProps) {
             </div>
             <div className={styles['description']}>
                 <div className={styles['name']}>{props.name}</div>
-                <div className={styles['currency']}>{props.price}&nbsp;</div>
+                <div className={styles['price']}>{props.price}&nbsp;</div>
             </div>
             <div className={styles['actions']}>
-                <button className={styles['button']} onClick={decrease}>
+                <button className={styles['minus']} onClick={decrease}>
                     <img src="/minus-icon.svg" alt="Remove from cart" />
                 </button>
-                <div> {props.count} </div>
-                <button className={styles['add-to-item']} onClick={increase}>
-                    <img src="/cart-button-icon.svg" alt="Add to cart" />
+                <div className={styles['count']}> {props.count} </div>
+                <button className={styles['plus']} onClick={increase}>
+                    <img src="/plus-icon.svg" alt="Add to cart" />
                 </button>
                 <button className={styles['remove']} onClick={remove}>
-                    <img src="/minus-icon.svg" alt="Remove all" />
+                    <img src="/delete-icon.svg" alt="Remove all" />
                 </button>
             </div>
         </div>
